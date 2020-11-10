@@ -16,5 +16,14 @@ namespace Архиватор_Юпи
         {
             InitializeComponent();
         }
+
+        private string fullPath;
+
+        /// <summary>
+        /// Ициализация дерева диска
+        /// </summary>
+        private void DriveThreeInit()
+        {
+        }
     }
 }
