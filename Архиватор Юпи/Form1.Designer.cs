@@ -52,11 +52,11 @@
             this.tsExit = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -96,33 +96,33 @@
             // 
             this.fPack.Image = ((System.Drawing.Image)(resources.GetObject("fPack.Image")));
             this.fPack.Name = "fPack";
-            this.fPack.Size = new System.Drawing.Size(216, 26);
+            this.fPack.Size = new System.Drawing.Size(159, 26);
             this.fPack.Text = "Упаковать";
             // 
             // fUnPack
             // 
             this.fUnPack.Image = ((System.Drawing.Image)(resources.GetObject("fUnPack.Image")));
             this.fUnPack.Name = "fUnPack";
-            this.fUnPack.Size = new System.Drawing.Size(216, 26);
+            this.fUnPack.Size = new System.Drawing.Size(159, 26);
             this.fUnPack.Text = "Извлечь";
             // 
             // fDel
             // 
             this.fDel.Image = ((System.Drawing.Image)(resources.GetObject("fDel.Image")));
             this.fDel.Name = "fDel";
-            this.fDel.Size = new System.Drawing.Size(216, 26);
+            this.fDel.Size = new System.Drawing.Size(159, 26);
             this.fDel.Text = "Удалить";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(156, 6);
             // 
             // fExit
             // 
             this.fExit.Image = ((System.Drawing.Image)(resources.GetObject("fExit.Image")));
             this.fExit.Name = "fExit";
-            this.fExit.Size = new System.Drawing.Size(216, 26);
+            this.fExit.Size = new System.Drawing.Size(159, 26);
             this.fExit.Text = "Выход";
             // 
             // mPropertis
@@ -160,13 +160,13 @@
             // hHelp
             // 
             this.hHelp.Name = "hHelp";
-            this.hHelp.Size = new System.Drawing.Size(216, 26);
+            this.hHelp.Size = new System.Drawing.Size(181, 26);
             this.hHelp.Text = "Помощь";
             // 
             // hInform
             // 
             this.hInform.Name = "hInform";
-            this.hInform.Size = new System.Drawing.Size(216, 26);
+            this.hInform.Size = new System.Drawing.Size(181, 26);
             this.hInform.Text = "О программе";
             // 
             // toolStrip1
@@ -251,12 +251,12 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
             this.splitContainer1.Size = new System.Drawing.Size(779, 393);
-            this.splitContainer1.SplitterDistance = 220;
+            this.splitContainer1.SplitterDistance = 200;
             this.splitContainer1.TabIndex = 3;
             // 
             // treeView1
             // 
-            this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.treeView1.ImageIndex = 0;
@@ -264,8 +264,15 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(216, 389);
+            this.treeView1.Size = new System.Drawing.Size(196, 389);
             this.treeView1.TabIndex = 0;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "DC.ico");
+            this.imageList1.Images.SetKeyName(1, "DW.ico");
             // 
             // listView1
             // 
@@ -277,7 +284,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(551, 389);
+            this.listView1.Size = new System.Drawing.Size(571, 389);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -296,13 +303,6 @@
             // 
             this.columnHeader3.Text = "Дата и время";
             this.columnHeader3.Width = 250;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "DC.ico");
-            this.imageList1.Images.SetKeyName(1, "DW.ico");
             // 
             // Form1
             // 

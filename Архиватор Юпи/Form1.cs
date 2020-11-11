@@ -17,7 +17,7 @@ namespace Архиватор_Юпи
         private string fullPath { get; set; }
 
         /// <summary>
-        /// Ициализация дерева диска
+        /// Ициализация дерева диска.
         /// </summary>
         private void DriveTreeInit()
         {
@@ -32,6 +32,14 @@ namespace Архиватор_Юпи
             }
 
             treeView1.EndUpdate();
+        }
+
+        /// <summary>
+       /// Получить список директорий.
+       /// </summary>
+        private void GetDirectory()
+        {
+
         }
 
         /// <summary>
