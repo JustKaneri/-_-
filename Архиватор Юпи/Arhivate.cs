@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Архиватор_Юпи
 {
-    class Arhivate
+    /// <summary>
+    /// Класс для архивирования.
+    /// </summary>
+    public class Arhivate
     {
         private static uint[] ArrayChastot = new uint[256];
         private static string[] ArrayCode = new string[256];

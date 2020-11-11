@@ -12,7 +12,7 @@ namespace Архиватор_Юпи
         }
 
         /// <summary>
-        /// Полный путь к файлу.
+        /// Полный путь к каталогу.
         /// </summary>
         private string fullPath { get; set; }
 
@@ -23,22 +23,49 @@ namespace Архиватор_Юпи
         {
             string[] arrayDrive = Directory.GetLogicalDrives();
             treeView1.BeginUpdate();
+            treeView1.Nodes.Clear();
 
             for (int i = 0; i < arrayDrive.Length; i++)
             {
                 TreeNode treeNode = new TreeNode(arrayDrive[i],0,1);
                 
                 treeView1.Nodes.Add(treeNode);
+                GetDirectory(treeNode);
+
             }
 
             treeView1.EndUpdate();
         }
 
         /// <summary>
-       /// Получить список директорий.
-       /// </summary>
-        private void GetDirectory()
+        /// Получить директироии узла.
+        /// </summary>
+        /// <param name="node">Выбраный узел</param>
+        private void GetDirectory(TreeNode node)
         {
+            node.Nodes.Clear();//Очистка узла;
+
+            fullPath = node.FullPath;
+
+            //Информация о катологу соответ. узлу Node.
+            DirectoryInfo info = new DirectoryInfo(fullPath);
+
+            DirectoryInfo[] infoArray;
+
+            try
+            {
+                infoArray = info.GetDirectories();
+            }
+            catch
+            {
+                return;
+            }
+
+            for (int i = 0; i < infoArray.Length; i++)
+            {
+                TreeNode dir = new TreeNode(infoArray[i].Name,0,1);
+                node.Nodes.Add(dir);
+            }
 
         }
 
