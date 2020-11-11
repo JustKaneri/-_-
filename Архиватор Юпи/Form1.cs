@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Архиватор_Юпи
@@ -17,13 +11,37 @@ namespace Архиватор_Юпи
             InitializeComponent();
         }
 
-        private string fullPath;
+        /// <summary>
+        /// Полный путь к файлу.
+        /// </summary>
+        private string fullPath { get; set; }
 
         /// <summary>
         /// Ициализация дерева диска
         /// </summary>
-        private void DriveThreeInit()
+        private void DriveTreeInit()
         {
+            string[] arrayDrive = Directory.GetLogicalDrives();
+            treeView1.BeginUpdate();
+
+            for (int i = 0; i < arrayDrive.Length; i++)
+            {
+                TreeNode treeNode = new TreeNode(arrayDrive[i],0,1);
+                
+                treeView1.Nodes.Add(treeNode);
+            }
+
+            treeView1.EndUpdate();
+        }
+
+        /// <summary>
+        /// Старт приложения.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            DriveTreeInit();
         }
     }
 }
