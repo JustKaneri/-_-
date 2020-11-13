@@ -38,7 +38,7 @@ namespace Архиватор_Юпи
         }
 
         /// <summary>
-        /// Получить директироии узла.
+        /// Получить директории узла.
         /// </summary>
         /// <param name="node">Выбраный узел</param>
         private void GetDirectory(TreeNode node)
@@ -77,6 +77,26 @@ namespace Архиватор_Юпи
         private void Form1_Load(object sender, EventArgs e)
         {
             DriveTreeInit();
+        }
+
+        /// <summary>
+        /// Событие до раскрытия.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            treeView1.BeginUpdate();
+            //Перебрать все вложеные каталоги в выбраном узле.
+            //e.Node - узел который разворачивается.
+            //e.Node.Nodes - вложенные узлы.
+
+            foreach (TreeNode item in e.Node.Nodes)
+            {
+                GetDirectory(item);
+            }
+
+            treeView1.EndUpdate();
         }
     }
 }

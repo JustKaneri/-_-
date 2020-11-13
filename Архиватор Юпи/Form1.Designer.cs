@@ -75,7 +75,7 @@
             this.mHelper});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(825, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(940, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -182,7 +182,7 @@
             this.tsExit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(825, 47);
+            this.toolStrip1.Size = new System.Drawing.Size(940, 47);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -250,8 +250,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(825, 539);
-            this.splitContainer1.SplitterDistance = 211;
+            this.splitContainer1.Size = new System.Drawing.Size(940, 549);
+            this.splitContainer1.SplitterDistance = 266;
             this.splitContainer1.TabIndex = 3;
             // 
             // treeView1
@@ -264,8 +264,9 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(207, 535);
+            this.treeView1.Size = new System.Drawing.Size(262, 545);
             this.treeView1.TabIndex = 0;
+            this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             // 
             // imageList1
             // 
@@ -285,7 +286,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(606, 535);
+            this.listView1.Size = new System.Drawing.Size(666, 545);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -310,7 +311,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(825, 614);
+            this.ClientSize = new System.Drawing.Size(940, 624);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
