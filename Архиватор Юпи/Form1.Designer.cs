@@ -96,7 +96,7 @@
             // 
             this.fPack.Image = ((System.Drawing.Image)(resources.GetObject("fPack.Image")));
             this.fPack.Name = "fPack";
-            this.fPack.Size = new System.Drawing.Size(216, 26);
+            this.fPack.Size = new System.Drawing.Size(159, 26);
             this.fPack.Text = "Упаковать";
             // 
             // fUnPack
@@ -267,6 +267,7 @@
             this.treeView1.Size = new System.Drawing.Size(262, 545);
             this.treeView1.TabIndex = 0;
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // imageList1
             // 
@@ -283,6 +284,7 @@
             this.columnHeader2,
             this.columnHeader3});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";

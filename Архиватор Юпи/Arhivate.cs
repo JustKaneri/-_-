@@ -203,7 +203,6 @@ namespace Архиватор_Юпи
                 ArrayChastot[i] = 0;
             }
 
-
             CreateList(baseName);
             CreateTree();
             GetCode(h, "");

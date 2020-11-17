@@ -98,5 +98,70 @@ namespace Архиватор_Юпи
 
             treeView1.EndUpdate();
         }
+
+        /// <summary>
+        /// Событие наступает после выделения узла.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode selectNode = e.Node;
+
+            fullPath = selectNode.FullPath;
+
+            DirectoryInfo di = new DirectoryInfo(fullPath);
+
+            DirectoryInfo[] arrayDir;
+            FileInfo[] arrayFile;
+
+            try
+            {
+                arrayDir = di.GetDirectories();
+                arrayFile = di.GetFiles();
+            }
+            catch 
+            {
+                return;
+            }
+
+            
+            listView1.Items.Clear();
+
+            foreach (DirectoryInfo item in arrayDir)
+            {
+                ListViewItem lvi = new ListViewItem(item.Name);
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(GetDate(item.LastWriteTime));
+                listView1.Items.Add(lvi);
+            }
+
+            foreach (FileInfo item in arrayFile)
+            {
+                ListViewItem lvi = new ListViewItem(item.Name);
+                lvi.SubItems.Add((item.Length).ToString());
+                lvi.SubItems.Add(GetDate(item.LastWriteTime));
+
+                listView1.Items.Add(lvi);
+            }
+        }
+
+        /// <summary>
+        /// Изменение формата даты.
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private string GetDate(DateTime dt)
+        {
+            string s = dt.ToShortDateString();
+
+            int h = dt.Hour;
+            if (h < 10)
+                s += " 0" + dt.ToShortTimeString();
+            else
+                s += " " + dt.ToShortTimeString();
+
+            return s;
+        }
     }
 }
