@@ -139,7 +139,7 @@ namespace Архиватор_Юпи
             foreach (FileInfo item in arrayFile)
             {
                 ListViewItem lvi = new ListViewItem(item.Name);
-                lvi.SubItems.Add((item.Length).ToString());
+                lvi.SubItems.Add(GetSize(item.Length));
                 lvi.SubItems.Add(GetDate(item.LastWriteTime));
 
                 listView1.Items.Add(lvi);
@@ -155,6 +155,7 @@ namespace Архиватор_Юпи
         {
             string s = dt.ToShortDateString();
 
+
             int h = dt.Hour;
             if (h < 10)
                 s += " 0" + dt.ToShortTimeString();
@@ -162,6 +163,24 @@ namespace Архиватор_Юпи
                 s += " " + dt.ToShortTimeString();
 
             return s;
+        }
+
+        /// <summary>
+        /// Полученение размера файла.
+        /// </summary>
+        /// <param name="lenght"></param>
+        /// <returns></returns>
+        private string GetSize(double lenght)
+        {
+            string[] f = { "Байт", "Кб", "Mб", "Гб" };
+            int i = 0;
+            while (lenght > 1024)
+            {
+                lenght = lenght / 1024.0;
+                i++;
+            }
+
+            return string.Format("{0:f1} {1}",lenght,f[i]);
         }
     }
 }
