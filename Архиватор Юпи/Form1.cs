@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace Архиватор_Юпи
 {
@@ -21,17 +22,15 @@ namespace Архиватор_Юпи
         /// </summary>
         private void DriveTreeInit()
         {
-            string[] arrayDrive = Directory.GetLogicalDrives();
-            treeView1.BeginUpdate();
+            string[] mas = Directory.GetLogicalDrives();
+            treeView1.Update();
             treeView1.Nodes.Clear();
 
-            for (int i = 0; i < arrayDrive.Length; i++)
+            for (int i = 0; i < mas.Length; i++)
             {
-                TreeNode treeNode = new TreeNode(arrayDrive[i],0,1);
-                
-                treeView1.Nodes.Add(treeNode);
-                GetDirectory(treeNode);
-
+                TreeNode tr = new TreeNode(mas[i],0,1);
+                treeView1.Nodes.Add(tr);
+                GetDirectory(tr);
             }
 
             treeView1.EndUpdate();
@@ -63,10 +62,9 @@ namespace Архиватор_Юпи
 
             for (int i = 0; i < infoArray.Length; i++)
             {
-                TreeNode dir = new TreeNode(infoArray[i].Name,0,1);
+                TreeNode dir = new TreeNode(infoArray[i].Name, 0, 1);
                 node.Nodes.Add(dir);
             }
-
         }
 
         /// <summary>
@@ -77,6 +75,12 @@ namespace Архиватор_Юпи
         private void Form1_Load(object sender, EventArgs e)
         {
             DriveTreeInit();
+
+            using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Classes\.upi"))
+                if(k!=null)
+                {
+                    pAddExet.Text = "Удалить ассоциацию расширения.upi с приложением";   
+                }
         }
 
         /// <summary>
@@ -139,7 +143,16 @@ namespace Архиватор_Юпи
             foreach (FileInfo item in arrayFile)
             {
                 ListViewItem lvi = new ListViewItem(item.Name);
+
+                //string t= item.Length.ToString();
+                //for (int i = t.Length-3; i > 0; i-=3)
+                //{
+                //    t = t.Insert(i, " ");
+                    
+                //}
+
                 lvi.SubItems.Add(GetSize(item.Length));
+                //lvi.SubItems.Add(t);
                 lvi.SubItems.Add(GetDate(item.LastWriteTime));
 
                 listView1.Items.Add(lvi);
@@ -179,8 +192,131 @@ namespace Архиватор_Юпи
                 lenght = lenght / 1024.0;
                 i++;
             }
-
             return string.Format("{0:f1} {1}",lenght,f[i]);
+        }
+
+        private void listView1_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.Text = fullPath+"\\"+listView1.SelectedItems[0].Text;
+        }
+
+        /// <summary>
+        /// Архивация.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fPack_Click(object sender, EventArgs e)
+        {
+            string fSourse, fPack;
+
+            if (listView1.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали файл для упаковки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            fSourse = fullPath + "\\" + listView1.SelectedItems[0].Text;
+            if (!File.Exists(fSourse))
+            {
+                MessageBox.Show("Не удается упаковать папку.\nВыберите файл.");
+                return;
+            }
+
+            fPack  = fullPath + "\\" + Path.GetFileNameWithoutExtension(listView1.SelectedItems[0].Text)+".upi";
+            bool f = File.Exists(fPack);
+
+            try
+            {
+                Arhivate.Pack(fSourse, fPack);
+            }
+            catch 
+            {
+                MessageBox.Show("Ошибка архивации","Ошибка",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!f)
+            {
+                FileInfo fl = new FileInfo(fPack);
+                ListViewItem lvi = new ListViewItem(fl.Name);
+                lvi.SubItems.Add(GetSize(fl.Length));
+                lvi.SubItems.Add(GetDate(fl.LastWriteTime));
+                listView1.Items.Insert(listView1.SelectedIndices[0]+1, lvi);
+            }
+
+            MessageBox.Show("Файл упакован", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Разархивацяи.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fUnPack_Click(object sender, EventArgs e)
+        {
+            string fSourse;
+            string fUnp = "";
+
+            if (listView1.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали файл для распаковки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            fSourse = fullPath + "\\" + listView1.SelectedItems[0].Text;
+            try
+            {
+                fUnp = Arhivate.IsExitFile(fSourse);
+            }
+            catch 
+            {
+                MessageBox.Show("Не удалось распаковать файл", "Внимание",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Error);
+                return;
+            }
+            
+
+            if (File.Exists(fUnp))
+            {
+               var res = MessageBox.Show("Перезаписать существующий файл", "Внимание", 
+                         MessageBoxButtons.OKCancel,
+                         MessageBoxIcon.Question);
+
+                if (res == DialogResult.OK)
+                {
+                    File.Delete(fUnp);
+                    listView1.Items.Remove(listView1.FindItemWithText(Path.GetFileName(fUnp)));
+                }
+            }
+
+            try
+            {
+                Arhivate.UnPack(fSourse);
+            }
+            catch
+            {
+                MessageBox.Show("Не удалось распаковать файл", "Внимание",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Error);
+                return;
+            }
+
+
+            FileInfo fl = new FileInfo(fUnp);
+            ListViewItem lvi = new ListViewItem(fl.Name);
+            lvi.SubItems.Add(GetSize(fl.Length));
+            lvi.SubItems.Add(GetDate(fl.LastWriteTime));
+            listView1.Items.Insert(listView1.SelectedIndices[0], lvi);
+
+            MessageBox.Show("Файл распокован", "Распаковка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        
+        private void fDel_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

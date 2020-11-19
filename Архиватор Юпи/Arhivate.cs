@@ -214,7 +214,7 @@ namespace Архиватор_Юпи
                 t = (t + ArrayChastot[i] * ArrayCode[i].Length) % 8;
             }
             byte zeroEnd = Convert.ToByte(8 - t);
-            
+
 
             using (var br = new BinaryReader(File.Open(baseName, FileMode.Open)))
             {
@@ -333,6 +333,18 @@ namespace Архиватор_Юпи
 
                 }
             }
+        }
+
+        public static string IsExitFile(string fileName)
+        {
+            using (var br = new BinaryReader(File.Open(fileName, FileMode.Open)))
+            {
+                for (int i = 0; i < 256; i++) ArrayChastot[i] = br.ReadUInt32();
+                int zerows = Convert.ToInt32(br.ReadByte());
+                fileName= br.ReadString();
+            }
+
+            return fileName;
         }
     }
 }

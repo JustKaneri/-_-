@@ -75,7 +75,7 @@
             this.mHelper});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(940, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(971, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -96,33 +96,36 @@
             // 
             this.fPack.Image = ((System.Drawing.Image)(resources.GetObject("fPack.Image")));
             this.fPack.Name = "fPack";
-            this.fPack.Size = new System.Drawing.Size(159, 26);
+            this.fPack.Size = new System.Drawing.Size(216, 26);
             this.fPack.Text = "Упаковать";
+            this.fPack.Click += new System.EventHandler(this.fPack_Click);
             // 
             // fUnPack
             // 
             this.fUnPack.Image = ((System.Drawing.Image)(resources.GetObject("fUnPack.Image")));
             this.fUnPack.Name = "fUnPack";
-            this.fUnPack.Size = new System.Drawing.Size(159, 26);
+            this.fUnPack.Size = new System.Drawing.Size(216, 26);
             this.fUnPack.Text = "Извлечь";
+            this.fUnPack.Click += new System.EventHandler(this.fUnPack_Click);
             // 
             // fDel
             // 
             this.fDel.Image = ((System.Drawing.Image)(resources.GetObject("fDel.Image")));
             this.fDel.Name = "fDel";
-            this.fDel.Size = new System.Drawing.Size(159, 26);
+            this.fDel.Size = new System.Drawing.Size(216, 26);
             this.fDel.Text = "Удалить";
+            this.fDel.Click += new System.EventHandler(this.fDel_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(156, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
             // 
             // fExit
             // 
             this.fExit.Image = ((System.Drawing.Image)(resources.GetObject("fExit.Image")));
             this.fExit.Name = "fExit";
-            this.fExit.Size = new System.Drawing.Size(159, 26);
+            this.fExit.Size = new System.Drawing.Size(216, 26);
             this.fExit.Text = "Выход";
             // 
             // mPropertis
@@ -182,7 +185,7 @@
             this.tsExit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(940, 47);
+            this.toolStrip1.Size = new System.Drawing.Size(971, 47);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -195,6 +198,7 @@
             this.tsPack.Size = new System.Drawing.Size(44, 44);
             this.tsPack.Text = "toolStripButton1";
             this.tsPack.ToolTipText = "упаковать файл в архив.";
+            this.tsPack.Click += new System.EventHandler(this.fPack_Click);
             // 
             // tsUnPack
             // 
@@ -205,6 +209,7 @@
             this.tsUnPack.Size = new System.Drawing.Size(44, 44);
             this.tsUnPack.Text = "toolStripButton2";
             this.tsUnPack.ToolTipText = "Извлечь файл из архива.";
+            this.tsUnPack.Click += new System.EventHandler(this.fUnPack_Click);
             // 
             // tsDelet
             // 
@@ -250,8 +255,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(940, 549);
-            this.splitContainer1.SplitterDistance = 266;
+            this.splitContainer1.Size = new System.Drawing.Size(971, 522);
+            this.splitContainer1.SplitterDistance = 274;
             this.splitContainer1.TabIndex = 3;
             // 
             // treeView1
@@ -264,7 +269,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(262, 545);
+            this.treeView1.Size = new System.Drawing.Size(270, 518);
             this.treeView1.TabIndex = 0;
             this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -284,14 +289,16 @@
             this.columnHeader2,
             this.columnHeader3});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(666, 545);
+            this.listView1.Size = new System.Drawing.Size(689, 518);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             // 
             // columnHeader1
             // 
@@ -313,7 +320,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(940, 624);
+            this.ClientSize = new System.Drawing.Size(971, 597);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
