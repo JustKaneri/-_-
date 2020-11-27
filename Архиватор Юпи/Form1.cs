@@ -77,12 +77,55 @@ namespace Архиватор_Юпи
         {
             DriveTreeInit();
 
-            using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Classes\.upi"))
+            //Получаем параметры, передаваймые приложению
+            string[] args = Environment.GetCommandLineArgs();
+
+            //Если приложению передаются какие либо параметры...
+            if (args.Length > 2)
             {
-                pAddExet.Checked = k != null;
+                if (args[2] == "-unpack")//Если второй параметр "-unpack"
+                {
+                    DialogResult rez = MessageBox.Show("Распаковать архив?", "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (rez == DialogResult.Yes) //Если пользователь потверждаем распаковку.
+                    {
+                        try
+                        {    //Распаковка.
+                             Arhivate.UnPack(args[1], Arhivate.IsExitFile(args[1]));
+                             MessageBox.Show("Распаковка завершена", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch 
+                        {
+                            MessageBox.Show("Ошибка распаковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                       
+                    }
+
+                    this.Close();
+                }
+                else
+                if(args[2] == "-pack")
+                {
+                    DialogResult rez = MessageBox.Show("Упаковать файл?", "Внимание", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (rez == DialogResult.Yes) //Если пользователь потверждаем распаковку.
+                    {
+                        try
+                        {
+                            string s = Path.GetDirectoryName(args[1]) + "\\" + Path.GetFileNameWithoutExtension(args[1]) + ".upi";
+                            //Распаковка.
+                            Arhivate.Pack(args[1], s);
+                            MessageBox.Show("Упаковка завершена", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ошибка распаковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    this.Close();
+                }
             }
-                
-        }
+               
+        }                             
 
         /// <summary>
         /// Событие до раскрытия.
@@ -209,7 +252,6 @@ namespace Архиватор_Юпи
         private void fPack_Click(object sender, EventArgs e)
         {
             string fSourse, fPack;
-            Arhivate.toolStripProgressBar1 = toolStripProgressBar1;
 
             if (listView1.SelectedItems.Count == 0)
             {
@@ -389,7 +431,7 @@ namespace Архиватор_Юпи
             reg = reg.CreateSubKey("Shell");
             reg = reg.CreateSubKey("Open");
             reg = reg.CreateSubKey("Command");
-            reg.SetValue(string.Empty, "\"" + prg + "\" \"%1\"");
+            reg.SetValue(string.Empty, "\"" + prg + "\" \"%1\" -unpack");
 
             reg.Close();
         }
@@ -440,16 +482,76 @@ namespace Архиватор_Юпи
         }
 
         /// <summary>
-        /// При открытии вложенного меню.
+        /// Добавление в контекстное меню.
+        /// </summary>
+        private void AddContMenu()
+        {
+            RegistryKey k = Registry.ClassesRoot.CreateSubKey(@"*\Shell\Pack");
+            k.SetValue(string.Empty, "Упаковать архив");
+            k.SetValue("icon", "\"" + Application.ExecutablePath + "\",0");
+            k.CreateSubKey("Command").SetValue(string.Empty, "\"" + Application.ExecutablePath + "\" \"%1\" -pack");
+            k.Close();
+
+            RegistryKey reg = Registry.ClassesRoot.CreateSubKey(@"*\Shell\UnPack");
+            reg.SetValue(string.Empty, "Распаковать архив");
+            reg.SetValue("icon", "\"" + Application.ExecutablePath + "\",0");
+            reg.CreateSubKey("Command").SetValue(string.Empty, "\"" + Application.ExecutablePath + "\" \"%1\" -unpack");
+            reg.Close();
+
+        }
+
+        /// <summary>
+        /// Удаление из контекстного меню.
+        /// </summary>
+        private void DeletComMenu()
+        {
+            RegistryKey k = Registry.ClassesRoot.CreateSubKey("*\\Shell", true);
+            try
+            {
+                k.DeleteSubKeyTree("Pack");
+                k.DeleteSubKeyTree("UnPack");
+            }
+            catch{}
+            finally
+            {
+                k.Close();
+            }
+
+
+        }
+
+        /// <summary>
+        /// Добавление/Удаление.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pAddExet_DropDownOpened(object sender, EventArgs e)
+        private void pAddKonMenu_CheckedChanged(object sender, EventArgs e)
+        {
+            if (pAddKonMenu.Checked)
+                AddContMenu();
+            else
+                DeletComMenu();
+        }
+
+        /// <summary>
+        /// При разворачивании.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mPropertis_DropDownOpened(object sender, EventArgs e)
         {
             using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Classes\.upi"))
             {
                 pAddExet.Checked = k != null;
             }
+
+            RegistryKey reg = Registry.ClassesRoot.OpenSubKey(@"*\Shell\Pack");
+            if (reg != null)
+            {
+                pAddKonMenu.Checked = true;
+                reg.Close();
+            }
+            
         }
     }
 }

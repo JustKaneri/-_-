@@ -147,6 +147,7 @@
             this.mPropertis.Name = "mPropertis";
             this.mPropertis.Size = new System.Drawing.Size(105, 24);
             this.mPropertis.Text = "Параметры";
+            this.mPropertis.DropDownOpened += new System.EventHandler(this.mPropertis_DropDownOpened);
             // 
             // pAddExet
             // 
@@ -155,7 +156,6 @@
             this.pAddExet.Size = new System.Drawing.Size(437, 26);
             this.pAddExet.Text = "Ассоциировать разрешение .upi с приложением";
             this.pAddExet.CheckedChanged += new System.EventHandler(this.pAddExet_CheckedChanged);
-            this.pAddExet.DropDownOpened += new System.EventHandler(this.pAddExet_DropDownOpened);
             // 
             // pAddKonMenu
             // 
@@ -163,6 +163,7 @@
             this.pAddKonMenu.Name = "pAddKonMenu";
             this.pAddKonMenu.Size = new System.Drawing.Size(437, 26);
             this.pAddKonMenu.Text = "Добавить в контекстное меню";
+            this.pAddKonMenu.CheckedChanged += new System.EventHandler(this.pAddKonMenu_CheckedChanged);
             // 
             // mHelper
             // 

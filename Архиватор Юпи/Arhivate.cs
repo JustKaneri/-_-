@@ -17,7 +17,6 @@ namespace Архиватор_Юпи
         private static string[] ArrayCode = new string[256];
 
         private static Element h;
-        public static ToolStripProgressBar toolStripProgressBar1;
 
         /// <summary>
         /// Создание списка.
@@ -219,8 +218,7 @@ namespace Архиватор_Юпи
 
             using (var br = new BinaryReader(File.Open(baseName, FileMode.Open)))
             {
-                int oneProc = Convert.ToInt32(br.BaseStream.Length / 100);
-                toolStripProgressBar1.Maximum = 100;
+                
 
                 using (var bw = new BinaryWriter(File.Open(finalyName, FileMode.Create)))
                 {
@@ -238,7 +236,7 @@ namespace Архиватор_Юпи
 
                     while (br.BaseStream.Position < lenght)
                     {
-                        toolStripProgressBar1.Value = Convert.ToInt32(br.BaseStream.Position / oneProc);
+                        
 
                         byte currentByte = br.ReadByte();
                         s += ArrayCode[currentByte];
@@ -282,7 +280,6 @@ namespace Архиватор_Юпи
                     }
                 }
 
-                toolStripProgressBar1.Value = 0;
             }
         }
 
