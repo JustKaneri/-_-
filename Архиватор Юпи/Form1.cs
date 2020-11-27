@@ -16,6 +16,7 @@ namespace Архиватор_Юпи
         /// Полный путь к каталогу.
         /// </summary>
         private string fullPath { get; set; }
+        private const string Exect = "upi";
 
         /// <summary>
         /// Ициализация дерева диска.
@@ -77,10 +78,10 @@ namespace Архиватор_Юпи
             DriveTreeInit();
 
             using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Classes\.upi"))
-                if(k!=null)
-                {
-                    pAddExet.Text = "Удалить ассоциацию расширения.upi с приложением";   
-                }
+            {
+                pAddExet.Checked = k != null;
+            }
+                
         }
 
         /// <summary>
@@ -208,6 +209,7 @@ namespace Архиватор_Юпи
         private void fPack_Click(object sender, EventArgs e)
         {
             string fSourse, fPack;
+            Arhivate.toolStripProgressBar1 = toolStripProgressBar1;
 
             if (listView1.SelectedItems.Count == 0)
             {
@@ -264,6 +266,8 @@ namespace Архиватор_Юпи
             }
 
             fSourse = fullPath + "\\" + listView1.SelectedItems[0].Text;
+
+            //Получаем имя исходного файла.
             try
             {
                 fUnp = Arhivate.IsExitFile(fSourse);
@@ -275,8 +279,10 @@ namespace Архиватор_Юпи
                          MessageBoxIcon.Error);
                 return;
             }
-            
 
+            fUnp = fullPath + "\\" + Path.GetFileName(fUnp);
+            
+            //Если файл существует.
             if (File.Exists(fUnp))
             {
                var res = MessageBox.Show("Перезаписать существующий файл", "Внимание", 
@@ -288,11 +294,14 @@ namespace Архиватор_Юпи
                     File.Delete(fUnp);
                     listView1.Items.Remove(listView1.FindItemWithText(Path.GetFileName(fUnp)));
                 }
+                else
+                    return;
             }
 
+            //Извлечение файла.
             try
             {
-                Arhivate.UnPack(fSourse);
+                Arhivate.UnPack(fSourse,fUnp);
             }
             catch
             {
@@ -302,7 +311,7 @@ namespace Архиватор_Юпи
                 return;
             }
 
-
+            //Добавление файла
             FileInfo fl = new FileInfo(fUnp);
             ListViewItem lvi = new ListViewItem(fl.Name);
             lvi.SubItems.Add(GetSize(fl.Length));
@@ -313,10 +322,134 @@ namespace Архиватор_Юпи
 
         }
 
-        
+        /// <summary>
+        ///Удаление файла.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fDel_Click(object sender, EventArgs e)
         {
-            
+            if (listView1.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали файл для удаления.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string fileName = fullPath + "\\" + listView1.SelectedItems[0].Text;
+
+            var res = MessageBox.Show($"Удалить файл {Path.GetFileName(fileName)} ?", "Удаление", 
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question);
+
+            if(res == DialogResult.OK)
+            {
+                try
+                {
+                    File.Delete(fileName);
+                    listView1.Items.Remove(listView1.SelectedItems[0]);
+                }
+                catch 
+                {
+                    MessageBox.Show("Не удалось удалить файл.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Выход из приложения.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsExit_Click(object sender, EventArgs e)
+        {
+            var res = MessageBox.Show("Уже уходите ?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (res == DialogResult.Yes)
+                Application.Exit();
+        }
+
+        /// <summary>
+        /// Добавления расширения.
+        /// </summary>
+        private void AddExet()
+        {
+            var prg = Application.ExecutablePath;
+            string description = "";
+            var reg = Registry.CurrentUser.OpenSubKey(@"Software\Classes", true);
+
+            reg.CreateSubKey("." + Exect).SetValue(string.Empty, Exect + "_open");
+
+            //Смещение указателя.
+            reg = reg.CreateSubKey(Exect + "_open");
+            reg.SetValue(string.Empty, description);
+
+            reg.CreateSubKey("DefaultIcon").SetValue(string.Empty, "\"" + prg + "\",0");
+            reg = reg.CreateSubKey("Shell");
+            reg = reg.CreateSubKey("Open");
+            reg = reg.CreateSubKey("Command");
+            reg.SetValue(string.Empty, "\"" + prg + "\" \"%1\"");
+
+            reg.Close();
+        }
+
+        /// <summary>
+        /// Удаление расширение.
+        /// </summary>
+        private void DeletExet()
+        {
+            using (var reg = Registry.CurrentUser.OpenSubKey(@"Software\Classes", true))
+            {
+                try
+                {
+                    reg.DeleteSubKeyTree("." + Exect);
+                    reg.DeleteSubKeyTree(Exect + "_open");
+                }
+                catch
+                {
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Информация о программе.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hInform_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Архиватор Юпи" +
+                "\nВерсия: 1.0v\n" +
+                "Описание: " +
+                "\nАрхиватор предназначен для упаковки текстовых,exe файлов и изображение с расширение bmp.","Описание",MessageBoxButtons.OK,MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Проверка соостояние кнопки(выбранно/не выбранно)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pAddExet_CheckedChanged(object sender, EventArgs e)
+        {
+            if (pAddExet.Checked)
+                AddExet();
+            else
+                DeletExet();
+        }
+
+        /// <summary>
+        /// При открытии вложенного меню.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pAddExet_DropDownOpened(object sender, EventArgs e)
+        {
+            using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Classes\.upi"))
+            {
+                pAddExet.Checked = k != null;
+            }
         }
     }
 }

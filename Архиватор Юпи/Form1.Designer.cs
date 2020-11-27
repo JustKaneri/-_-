@@ -57,12 +57,21 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CmPack = new System.Windows.Forms.ToolStripMenuItem();
+            this.CmUnpack = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.CmDel = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -96,7 +105,7 @@
             // 
             this.fPack.Image = ((System.Drawing.Image)(resources.GetObject("fPack.Image")));
             this.fPack.Name = "fPack";
-            this.fPack.Size = new System.Drawing.Size(216, 26);
+            this.fPack.Size = new System.Drawing.Size(159, 26);
             this.fPack.Text = "Упаковать";
             this.fPack.Click += new System.EventHandler(this.fPack_Click);
             // 
@@ -104,7 +113,7 @@
             // 
             this.fUnPack.Image = ((System.Drawing.Image)(resources.GetObject("fUnPack.Image")));
             this.fUnPack.Name = "fUnPack";
-            this.fUnPack.Size = new System.Drawing.Size(216, 26);
+            this.fUnPack.Size = new System.Drawing.Size(159, 26);
             this.fUnPack.Text = "Извлечь";
             this.fUnPack.Click += new System.EventHandler(this.fUnPack_Click);
             // 
@@ -112,21 +121,22 @@
             // 
             this.fDel.Image = ((System.Drawing.Image)(resources.GetObject("fDel.Image")));
             this.fDel.Name = "fDel";
-            this.fDel.Size = new System.Drawing.Size(216, 26);
+            this.fDel.Size = new System.Drawing.Size(159, 26);
             this.fDel.Text = "Удалить";
             this.fDel.Click += new System.EventHandler(this.fDel_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(156, 6);
             // 
             // fExit
             // 
             this.fExit.Image = ((System.Drawing.Image)(resources.GetObject("fExit.Image")));
             this.fExit.Name = "fExit";
-            this.fExit.Size = new System.Drawing.Size(216, 26);
+            this.fExit.Size = new System.Drawing.Size(159, 26);
             this.fExit.Text = "Выход";
+            this.fExit.Click += new System.EventHandler(this.tsExit_Click);
             // 
             // mPropertis
             // 
@@ -140,12 +150,16 @@
             // 
             // pAddExet
             // 
+            this.pAddExet.CheckOnClick = true;
             this.pAddExet.Name = "pAddExet";
             this.pAddExet.Size = new System.Drawing.Size(437, 26);
             this.pAddExet.Text = "Ассоциировать разрешение .upi с приложением";
+            this.pAddExet.CheckedChanged += new System.EventHandler(this.pAddExet_CheckedChanged);
+            this.pAddExet.DropDownOpened += new System.EventHandler(this.pAddExet_DropDownOpened);
             // 
             // pAddKonMenu
             // 
+            this.pAddKonMenu.CheckOnClick = true;
             this.pAddKonMenu.Name = "pAddKonMenu";
             this.pAddKonMenu.Size = new System.Drawing.Size(437, 26);
             this.pAddKonMenu.Text = "Добавить в контекстное меню";
@@ -171,6 +185,7 @@
             this.hInform.Name = "hInform";
             this.hInform.Size = new System.Drawing.Size(181, 26);
             this.hInform.Text = "О программе";
+            this.hInform.Click += new System.EventHandler(this.hInform_Click);
             // 
             // toolStrip1
             // 
@@ -220,6 +235,7 @@
             this.tsDelet.Size = new System.Drawing.Size(44, 44);
             this.tsDelet.Text = "toolStripButton3";
             this.tsDelet.ToolTipText = "Удалить файл";
+            this.tsDelet.Click += new System.EventHandler(this.fDel_Click);
             // 
             // toolStripSeparator2
             // 
@@ -240,6 +256,7 @@
             this.tsExit.Size = new System.Drawing.Size(44, 44);
             this.tsExit.Text = "toolStripButton4";
             this.tsExit.ToolTipText = "Выход";
+            this.tsExit.Click += new System.EventHandler(this.tsExit_Click);
             // 
             // splitContainer1
             // 
@@ -288,6 +305,7 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
+            this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listView1.FullRowSelect = true;
@@ -315,12 +333,69 @@
             this.columnHeader3.Text = "Дата и время";
             this.columnHeader3.Width = 250;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CmPack,
+            this.CmUnpack,
+            this.toolStripMenuItem2,
+            this.CmDel});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(158, 88);
+            // 
+            // CmPack
+            // 
+            this.CmPack.Image = ((System.Drawing.Image)(resources.GetObject("CmPack.Image")));
+            this.CmPack.Name = "CmPack";
+            this.CmPack.Size = new System.Drawing.Size(157, 26);
+            this.CmPack.Text = "Упаковать";
+            this.CmPack.Click += new System.EventHandler(this.fPack_Click);
+            // 
+            // CmUnpack
+            // 
+            this.CmUnpack.Image = ((System.Drawing.Image)(resources.GetObject("CmUnpack.Image")));
+            this.CmUnpack.Name = "CmUnpack";
+            this.CmUnpack.Size = new System.Drawing.Size(157, 26);
+            this.CmUnpack.Text = "Извлечь";
+            this.CmUnpack.Click += new System.EventHandler(this.fUnPack_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(154, 6);
+            // 
+            // CmDel
+            // 
+            this.CmDel.Image = ((System.Drawing.Image)(resources.GetObject("CmDel.Image")));
+            this.CmDel.Name = "CmDel";
+            this.CmDel.Size = new System.Drawing.Size(157, 26);
+            this.CmDel.Text = "Удалить";
+            this.CmDel.Click += new System.EventHandler(this.fDel_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 572);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(971, 25);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 19);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(971, 597);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -339,6 +414,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,6 +451,13 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem CmPack;
+        private System.Windows.Forms.ToolStripMenuItem CmUnpack;
+        private System.Windows.Forms.ToolStripMenuItem CmDel;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        public System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        public System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 

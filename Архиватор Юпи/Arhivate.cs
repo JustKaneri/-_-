@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Архиватор_Юпи
 {
@@ -16,6 +17,7 @@ namespace Архиватор_Юпи
         private static string[] ArrayCode = new string[256];
 
         private static Element h;
+        public static ToolStripProgressBar toolStripProgressBar1;
 
         /// <summary>
         /// Создание списка.
@@ -215,12 +217,14 @@ namespace Архиватор_Юпи
             }
             byte zeroEnd = Convert.ToByte(8 - t);
 
-
             using (var br = new BinaryReader(File.Open(baseName, FileMode.Open)))
             {
+                int oneProc = Convert.ToInt32(br.BaseStream.Length / 100);
+                toolStripProgressBar1.Maximum = 100;
+
                 using (var bw = new BinaryWriter(File.Open(finalyName, FileMode.Create)))
                 {
-
+                    
                     for (int i = 0; i < 256; i++)
                     {
                         bw.Write(ArrayChastot[i]);
@@ -234,6 +238,8 @@ namespace Архиватор_Юпи
 
                     while (br.BaseStream.Position < lenght)
                     {
+                        toolStripProgressBar1.Value = Convert.ToInt32(br.BaseStream.Position / oneProc);
+
                         byte currentByte = br.ReadByte();
                         s += ArrayCode[currentByte];
 
@@ -275,6 +281,8 @@ namespace Архиватор_Юпи
                         bw.Write(Convert.ToByte(byteWrite));
                     }
                 }
+
+                toolStripProgressBar1.Value = 0;
             }
         }
 
@@ -282,7 +290,7 @@ namespace Архиватор_Юпи
         /// Распаковка.
         /// </summary>
         /// <param name="baseName">имя распковываемого файла.</param>
-        public static void UnPack(string baseName)
+        public static void UnPack(string baseName,string readFile)
         {
             using (var br = new BinaryReader(File.Open(baseName, FileMode.Open)))
             {
@@ -296,10 +304,11 @@ namespace Архиватор_Юпи
                 int x = 0;
                 Element a = h;
 
-                using (var bw = new BinaryWriter(File.Open(fileName, FileMode.Create)))
+                using (var bw = new BinaryWriter(File.Open(readFile, FileMode.Create)))
                 {
                     while (br.BaseStream.Position != br.BaseStream.Length - 1)
                     {
+
                         x = br.ReadByte();
 
                         for (int i = 0; i < 8; i++)
