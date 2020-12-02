@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace Архиватор_Юпи
 {
@@ -552,6 +553,16 @@ namespace Архиватор_Юпи
                 reg.Close();
             }
             
+        }
+
+        /// <summary>
+        /// Документация.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void hHelp_Click(object sender, EventArgs e)
+        {
+            Process.Start(Application.StartupPath +"\\help.chm");
         }
     }
 }

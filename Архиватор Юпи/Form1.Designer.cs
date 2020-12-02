@@ -178,13 +178,14 @@
             // hHelp
             // 
             this.hHelp.Name = "hHelp";
-            this.hHelp.Size = new System.Drawing.Size(181, 26);
+            this.hHelp.Size = new System.Drawing.Size(216, 26);
             this.hHelp.Text = "Помощь";
+            this.hHelp.Click += new System.EventHandler(this.hHelp_Click);
             // 
             // hInform
             // 
             this.hInform.Name = "hInform";
-            this.hInform.Size = new System.Drawing.Size(181, 26);
+            this.hInform.Size = new System.Drawing.Size(216, 26);
             this.hInform.Text = "О программе";
             this.hInform.Click += new System.EventHandler(this.hInform_Click);
             // 
